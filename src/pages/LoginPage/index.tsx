@@ -1,5 +1,10 @@
+import { LoginComponent } from "../../components/LoginComponent";
 import { AuthLayout } from "../../components/layout/AuthLayout";
 
 export const Login = () => {
-  return <AuthLayout>Login</AuthLayout>;
+  return (
+    <AuthLayout>
+      <LoginComponent />
+    </AuthLayout>
+  );
 };

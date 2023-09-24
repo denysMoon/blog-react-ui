@@ -1,11 +1,13 @@
+import { Divider } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { CustomLink } from "../Common/CustomLink";
 
-export const RegisterForm: React.FC = () => {
+export const RegisterComponent: React.FC = () => {
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("submit", event);
@@ -90,6 +92,10 @@ export const RegisterForm: React.FC = () => {
           >
             Register
           </Button>
+          <Divider sx={{ mt: "30px", mb: "30px" }} />
+          <div>
+            Or <CustomLink redirectTo="/login">login</CustomLink>
+          </div>
         </Grid>
       </form>
     </Box>
