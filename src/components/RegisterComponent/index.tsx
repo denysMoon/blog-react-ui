@@ -1,16 +1,39 @@
-import { Divider } from "@mui/material";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
+import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { CustomLink } from "../Common/CustomLink";
+import axios from "axios";
+
+interface RegisterForm {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export const RegisterComponent: React.FC = () => {
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("submit", event);
+  const { register, handleSubmit, reset } = useForm<RegisterForm>();
+
+  const submitHandler: SubmitHandler<RegisterForm> = async (data) => {
+    console.log("submit", data);
+
+    const register = await axios.post(
+      "http://localhost:3000/api/auth/register",
+      {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      }
+    );
+
+    console.log("register", register);
+
+    reset();
   };
   return (
     <Box
@@ -22,7 +45,7 @@ export const RegisterComponent: React.FC = () => {
         marginTop: 2,
       }}
     >
-      <form onSubmit={submitHandler}>
+      <form onSubmit={handleSubmit(submitHandler)}>
         <Grid container direction={"column"} justifyContent={"flex-start"}>
           <Typography variant="h4" component={"h1"}>
             Create account
@@ -39,6 +62,7 @@ export const RegisterComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your name"
+            {...register("name")}
           />
           <InputLabel
             htmlFor="email"
@@ -52,6 +76,7 @@ export const RegisterComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your email"
+            {...register("email")}
           />
           <InputLabel
             htmlFor="password"
@@ -65,6 +90,7 @@ export const RegisterComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your password"
+            {...register("password")}
           />
           <InputLabel
             htmlFor="password"
@@ -78,6 +104,7 @@ export const RegisterComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Re-enter password"
+            {...register("confirmPassword")}
           />
           <Button
             variant="contained"
