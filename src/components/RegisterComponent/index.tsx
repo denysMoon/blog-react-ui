@@ -1,5 +1,7 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
@@ -12,10 +14,7 @@ import {
   reset as resetAuthState,
   selectedUser,
 } from "../../store/auth/authSlice";
-import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store/dispatch";
-import { CustomLink } from "../Common/CustomLink";
 
 interface RegisterForm {
   name: string;
@@ -26,21 +25,17 @@ interface RegisterForm {
 export const RegisterComponent: React.FC = () => {
   const { register, handleSubmit, reset } = useForm<RegisterForm>();
   const dispatch = useAppDispatch();
-  const { isSuccess } = useSelector(selectedUser);
-  // const navigate = useNavigate();
+  const { isSuccess, isLoading } = useSelector(selectedUser);
 
   useEffect(() => {
     console.log("isSuccess", isSuccess);
     if (isSuccess) {
-      // navigate("/login");
       resetAuthState();
     }
   }, [isSuccess]);
 
   const submitHandler: SubmitHandler<RegisterForm> = async (data) => {
     dispatch(registerUser(data));
-
-    // console.log("data", data);
 
     reset();
   };
@@ -104,12 +99,10 @@ export const RegisterComponent: React.FC = () => {
           />
           <Button
             variant="contained"
-            // disabled={isLoading}
+            disabled={isLoading}
             style={{
               marginTop: "16px",
               height: "30px",
-              backgroundColor: "#f0c14b",
-              borderColor: " #a88734 #9c7e31 #846a29",
               textTransform: "none",
             }}
             type="submit"
@@ -118,7 +111,7 @@ export const RegisterComponent: React.FC = () => {
           </Button>
           <Divider sx={{ mt: "30px", mb: "30px" }} />
           <div>
-            Or <CustomLink redirectTo="/login">login</CustomLink>
+            Or <Link to="/login">login</Link>
           </div>
         </Grid>
       </form>

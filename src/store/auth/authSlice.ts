@@ -9,24 +9,13 @@ import {
 } from "../../models/models";
 import axios from "axios";
 import { RootState } from "..";
+import { AuthState } from "../types";
 
 const storedUser: string | null = localStorage.getItem("user");
 const user: DisplayUser | null = storedUser ? JSON.parse(storedUser) : null;
 
 const storedJwt: string | null = localStorage.getItem("jwt");
 const jwt: Jwt | null = storedJwt ? JSON.parse(storedJwt) : null;
-
-interface AsyncState {
-  isLoading: boolean;
-  isError: boolean;
-  isSuccess: boolean;
-}
-
-interface AuthState extends AsyncState {
-  user?: DisplayUser | null;
-  jwt: Jwt;
-  isAuthenticated: boolean;
-}
 
 const initialState: AuthState = {
   user: user,
@@ -42,7 +31,7 @@ export const registerUser = createAsyncThunk(
   async (user: NewUser, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/register",
+        `${import.meta.env.VITE_BFF_URL}/auth/register`,
         user
       );
 
@@ -58,7 +47,7 @@ export const login = createAsyncThunk(
   async (user: LoginUser, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        `${import.meta.env.VITE_BFF_URL}/auth/login`,
         user
       );
 
@@ -81,7 +70,7 @@ export const verifyJwt = createAsyncThunk(
   async (jwt: string, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/verify-jwt",
+        `${import.meta.env.VITE_BFF_URL}/auth/verify-jwt`,
         { jwt }
       );
 
