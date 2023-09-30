@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -6,35 +7,44 @@ import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import {
+  registerUser,
+  reset as resetAuthState,
+  selectedUser,
+} from "../../store/auth/authSlice";
+import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../store/dispatch";
 import { CustomLink } from "../Common/CustomLink";
-import axios from "axios";
 
 interface RegisterForm {
   name: string;
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
 export const RegisterComponent: React.FC = () => {
   const { register, handleSubmit, reset } = useForm<RegisterForm>();
+  const dispatch = useAppDispatch();
+  const { isSuccess } = useSelector(selectedUser);
+  // const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("isSuccess", isSuccess);
+    if (isSuccess) {
+      // navigate("/login");
+      resetAuthState();
+    }
+  }, [isSuccess]);
 
   const submitHandler: SubmitHandler<RegisterForm> = async (data) => {
-    console.log("submit", data);
+    dispatch(registerUser(data));
 
-    const register = await axios.post(
-      "http://localhost:3000/api/auth/register",
-      {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      }
-    );
-
-    console.log("register", register);
+    // console.log("data", data);
 
     reset();
   };
+
   return (
     <Box
       sx={{
@@ -92,22 +102,9 @@ export const RegisterComponent: React.FC = () => {
             placeholder="Type your password"
             {...register("password")}
           />
-          <InputLabel
-            htmlFor="password"
-            sx={{ fontWeight: 500, marginTop: 1, color: "#000000" }}
-          >
-            Confirm password
-          </InputLabel>
-          <TextField
-            type="password"
-            id="password"
-            variant="outlined"
-            margin="normal"
-            placeholder="Re-enter password"
-            {...register("confirmPassword")}
-          />
           <Button
             variant="contained"
+            // disabled={isLoading}
             style={{
               marginTop: "16px",
               height: "30px",

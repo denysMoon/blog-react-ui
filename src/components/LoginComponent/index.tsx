@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Divider } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -5,12 +6,40 @@ import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { CustomLink } from "../Common/CustomLink";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useAppDispatch } from "../../store/dispatch";
+import { login, selectedUser } from "../../store/auth/authSlice";
+
+export interface LoginForm {
+  email: string;
+  password: string;
+}
 
 export const LoginComponent: React.FC = () => {
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("submit", event);
+  const { register, handleSubmit, reset } = useForm<LoginForm>();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, isSuccess } = useSelector(selectedUser);
+
+  console.log("isAuthenticated", isAuthenticated);
+
+  useEffect(() => {
+    if (isSuccess) {
+      reset();
+    }
+  }, [isSuccess, reset]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      // navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
+  const submitHandler: SubmitHandler<LoginForm> = async (data) => {
+    dispatch(login(data));
   };
   return (
     <Box
@@ -22,7 +51,7 @@ export const LoginComponent: React.FC = () => {
         marginTop: 2,
       }}
     >
-      <form onSubmit={submitHandler}>
+      <form onSubmit={handleSubmit(submitHandler)}>
         <Grid container direction={"column"} justifyContent={"flex-start"}>
           <Typography variant="h4" component={"h1"}>
             Login
@@ -39,6 +68,7 @@ export const LoginComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your email"
+            {...register("email")}
           />
           <InputLabel
             htmlFor="password"
@@ -52,6 +82,7 @@ export const LoginComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your password"
+            {...register("password")}
           />
           <Button
             variant="contained"
@@ -71,6 +102,8 @@ export const LoginComponent: React.FC = () => {
             Or <CustomLink redirectTo="/register">register</CustomLink>
           </div>
         </Grid>
+        Test: test@gmail.com / 12345
+        <CustomLink redirectTo="/blogs">blogs</CustomLink>
       </form>
     </Box>
   );
