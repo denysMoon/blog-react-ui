@@ -13,8 +13,8 @@ import {
   registerUser,
   reset as resetAuthState,
   selectedUser,
-} from "../../store/auth/authSlice";
-import { useAppDispatch } from "../../store/dispatch";
+} from "@/store/auth/authSlice";
+import { useAppDispatch } from "@/store/dispatch";
 
 interface RegisterForm {
   name: string;

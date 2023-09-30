@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import { useAppDispatch } from "../../../store/dispatch";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { logout, reset, selectedUser } from "../../../store/auth/authSlice";
+import { logout, reset, selectedUser } from "@/store/auth/authSlice";
 
 export const AuthButtons: React.FC = () => {
   const { isAuthenticated } = useSelector(selectedUser);
