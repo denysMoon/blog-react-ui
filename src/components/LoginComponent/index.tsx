@@ -7,8 +7,7 @@ import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { CustomLink } from "../Common/CustomLink";
+import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "../../store/dispatch";
 import { login, selectedUser } from "../../store/auth/authSlice";
@@ -22,7 +21,7 @@ export const LoginComponent: React.FC = () => {
   const { register, handleSubmit, reset } = useForm<LoginForm>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { isAuthenticated, isSuccess } = useSelector(selectedUser);
+  const { isAuthenticated, isSuccess, isLoading } = useSelector(selectedUser);
 
   console.log("isAuthenticated", isAuthenticated);
 
@@ -34,7 +33,7 @@ export const LoginComponent: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      // navigate("/");
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
@@ -85,12 +84,11 @@ export const LoginComponent: React.FC = () => {
             {...register("password")}
           />
           <Button
+            disabled={isLoading}
             variant="contained"
             style={{
               marginTop: "16px",
               height: "30px",
-              backgroundColor: "#f0c14b",
-              borderColor: " #a88734 #9c7e31 #846a29",
               textTransform: "none",
             }}
             type="submit"
@@ -99,11 +97,10 @@ export const LoginComponent: React.FC = () => {
           </Button>
           <Divider sx={{ mt: "30px", mb: "30px" }} />
           <div>
-            Or <CustomLink redirectTo="/register">register</CustomLink>
+            Or <Link to="/register">register</Link>
           </div>
         </Grid>
         Test: test@gmail.com / 12345
-        <CustomLink redirectTo="/blogs">blogs</CustomLink>
       </form>
     </Box>
   );

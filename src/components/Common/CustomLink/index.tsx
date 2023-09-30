@@ -8,7 +8,12 @@ interface ICustomLink {
 
 export const CustomLink: React.FC<ICustomLink> = ({ redirectTo, children }) => {
   return (
-    <Link to={redirectTo} underline="none" component={RRDLink}>
+    <Link
+      sx={{ color: "white" }}
+      to={redirectTo}
+      underline="none"
+      component={RRDLink}
+    >
       {children}
     </Link>
   );
