@@ -9,11 +9,14 @@ import { Main } from "./pages/MainPage";
 import { Login } from "./pages/LoginPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { RegisterPage } from "./pages/RegisterPage";
+import { Blogs } from "./pages/Blogs";
+import { PrivateRoutes } from "./components/layout/PrivateRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
       <Route index element={<Main />} />
+      <Route path="blogs" element={<PrivateRoutes page={<Blogs />} />} />
       <Route path="register" element={<RegisterPage />} />
       <Route path="login" element={<Login />} />
       <Route path="*" element={<NotFoundPage />} />
@@ -22,5 +25,9 @@ const router = createBrowserRouter(
 );
 
 export const App: React.FC = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 };
