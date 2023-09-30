@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { selectedUser, verifyJwt } from "../../../store/auth/authSlice";
-import { useAppDispatch } from "../../../store/dispatch";
+import { selectedUser, verifyJwt } from "@/store/auth/authSlice";
+import { useAppDispatch } from "@/store/dispatch";
 
 export const PrivateRoutes = ({ page }: { page: JSX.Element }) => {
   const { isAuthenticated, isSuccess, jwt } = useSelector(selectedUser);

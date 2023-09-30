@@ -9,8 +9,8 @@ import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch } from "../../store/dispatch";
-import { login, selectedUser } from "../../store/auth/authSlice";
+import { login, selectedUser } from "@/store/auth/authSlice";
+import { useAppDispatch } from "@/store/dispatch";
 
 export interface LoginForm {
   email: string;
