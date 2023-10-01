@@ -23,7 +23,8 @@ interface RegisterForm {
 }
 
 export const RegisterComponent: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm<RegisterForm>();
+  const { register, handleSubmit, reset, formState } = useForm<RegisterForm>();
+  const { isValid } = formState;
   const dispatch = useAppDispatch();
   const { isSuccess, isLoading } = useSelector(selectedUser);
 
@@ -67,7 +68,11 @@ export const RegisterComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your name"
-            {...register("name")}
+            {...register("name", {
+              required: true,
+              minLength: 3,
+              maxLength: 50,
+            })}
           />
           <InputLabel
             htmlFor="email"
@@ -81,7 +86,11 @@ export const RegisterComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your email"
-            {...register("email")}
+            {...register("email", {
+              required: true,
+              minLength: 3,
+              maxLength: 50,
+            })}
           />
           <InputLabel
             htmlFor="password"
@@ -95,11 +104,15 @@ export const RegisterComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your password"
-            {...register("password")}
+            {...register("password", {
+              required: true,
+              minLength: 3,
+              maxLength: 50,
+            })}
           />
           <Button
             variant="contained"
-            disabled={isLoading}
+            disabled={isLoading || !isValid}
             style={{
               marginTop: "16px",
               height: "30px",
