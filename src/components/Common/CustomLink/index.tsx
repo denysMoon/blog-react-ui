@@ -1,8 +1,10 @@
 import { Link as RRDLink } from "react-router-dom";
 import Link from "@mui/material/Link";
 
+type Route = `/${string}`;
+
 interface ICustomLink {
-  redirectTo: string;
+  redirectTo: Route;
   children: string;
 }
 
