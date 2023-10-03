@@ -18,12 +18,13 @@ export interface LoginForm {
 }
 
 export const LoginComponent: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm<LoginForm>();
+  const { register, handleSubmit, reset, formState } = useForm<LoginForm>();
+  const { isValid } = formState;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isAuthenticated, isSuccess, isLoading } = useSelector(selectedUser);
 
-  console.log("isAuthenticated", isAuthenticated);
+  // TODO: add validation with yup
 
   useEffect(() => {
     if (isSuccess) {
@@ -67,7 +68,11 @@ export const LoginComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your email"
-            {...register("email")}
+            {...register("email", {
+              required: true,
+              minLength: 5,
+              maxLength: 50,
+            })}
           />
           <InputLabel
             htmlFor="password"
@@ -81,10 +86,14 @@ export const LoginComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             placeholder="Type your password"
-            {...register("password")}
+            {...register("password", {
+              required: true,
+              minLength: 3,
+              maxLength: 50,
+            })}
           />
           <Button
-            disabled={isLoading}
+            disabled={isLoading || !isValid}
             variant="contained"
             style={{
               marginTop: "16px",

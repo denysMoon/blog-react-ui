@@ -7,4 +7,4 @@ export const ROUTES = [
     name: "Blogs",
     path: "/blogs",
   },
-];
+] as const;
