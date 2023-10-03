@@ -14,7 +14,7 @@ export const PrivateRoutes = ({ page }: { page: JSX.Element }) => {
     if (!jwt || !jwt?.token) return;
 
     dispatch(verifyJwt(jwt.token));
-  }, [jwt, isSuccess]);
+  }, [jwt, isSuccess, dispatch]);
 
   console.log(12, isAuthenticated);
 
