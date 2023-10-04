@@ -4,6 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { AuthButtons } from "./AuthButtons";
 import { Navigate } from "./Navigate";
 import { Logo } from "./Logo";
+import { SwitchTheme } from "./SwitchTheme";
 
 export const Header = () => {
   return (
@@ -14,7 +15,10 @@ export const Header = () => {
             <Logo />
             <Navigate />
           </Box>
-          <AuthButtons />
+          <div>
+            <AuthButtons />
+            <SwitchTheme />
+          </div>
         </Toolbar>
       </AppBar>
     </Box>
